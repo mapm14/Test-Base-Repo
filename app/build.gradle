@@ -14,6 +14,10 @@ android {
         versionName "1.0"
         vectorDrawables.useSupportLibrary = true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+        buildConfigField "String", "BASE_URL", '"https://api.lufthansa.com/v1/"'
+        buildConfigField 'String', 'CLIENT_ID', '"b93wnu42cnmzmcbqeuycxdej"'
+        buildConfigField 'String', 'CLIENT_SECRET', '"5nGrC4H8Qf"'
     }
     buildTypes {
         release {
@@ -32,6 +36,8 @@ dependencies {
     androidTestImplementation 'androidx.test:runner:1.1.0'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.0'
 
+    implementation 'com.google.android.material:material:1.0.0'
+
     // Dagger 2
     kapt 'com.google.dagger:dagger-compiler:2.16'
     kapt 'com.google.dagger:dagger-android-processor:2.16'
@@ -48,4 +54,11 @@ dependencies {
     // RxJava
     implementation 'io.reactivex.rxjava2:rxandroid:2.1.0'
     implementation 'io.reactivex.rxjava2:rxjava:2.2.2'
+
+    // ViewModel
+    implementation "androidx.lifecycle:lifecycle-viewmodel:2.0.0"
+    implementation "androidx.lifecycle:lifecycle-extensions:2.0.0"
+
+    // Timber
+    implementation 'com.jakewharton.timber:timber:4.7.1'
 }
