@@ -10,6 +10,13 @@ import androidx.annotation.StringRes
 import androidx.core.content.ContextCompat
 import com.google.android.material.snackbar.Snackbar
 
+fun View.show(visible: Boolean) {
+    visibility = when (visible) {
+        true -> VISIBLE
+        false -> GONE
+    }
+}
+
 fun View.gone() {
     visibility = GONE
 }
@@ -23,14 +30,14 @@ fun View.invisible() {
 }
 
 fun ViewGroup.inflate(@LayoutRes layoutRes: Int, attachToRoot: Boolean = false): View =
-    LayoutInflater.from(context).inflate(layoutRes, this, attachToRoot)
+        LayoutInflater.from(context).inflate(layoutRes, this, attachToRoot)
 
 fun View.snackbar(
-    title: String = "",
-    action: String = "",
-    length: Int = Snackbar.LENGTH_LONG,
-    @ColorRes actionColor: Int = android.R.color.white,
-    actionResult: () -> Unit = {}
+        title: String = "",
+        action: String = "",
+        length: Int = Snackbar.LENGTH_LONG,
+        @ColorRes actionColor: Int = android.R.color.white,
+        actionResult: () -> Unit = {}
 ) {
 
     val snackbar = Snackbar.make(this, title, length)
@@ -43,11 +50,11 @@ fun View.snackbar(
 }
 
 fun View.snackbar(
-    @StringRes titleRes: Int = 0,
-    @StringRes actionRes: Int = 0,
-    length: Int = Snackbar.LENGTH_LONG,
-    @ColorRes actionColor: Int = android.R.color.white,
-    actionResult: () -> Unit = {}
+        @StringRes titleRes: Int = 0,
+        @StringRes actionRes: Int = 0,
+        length: Int = Snackbar.LENGTH_LONG,
+        @ColorRes actionColor: Int = android.R.color.white,
+        actionResult: () -> Unit = {}
 ) {
 
     snackbar(context.getString(titleRes), context.getString(actionRes), length, actionColor, actionResult)

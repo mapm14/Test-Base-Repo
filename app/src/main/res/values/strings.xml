@@ -3,4 +3,6 @@
     <string name="no_internet">No Internet connection</string>
     <string name="unknown_error">Unknown error</string>
     <string name="timeout_message">Ups! Slow connection, try again</string>
+
+    <string name="login_success">Login Success!</string>
 </resources>

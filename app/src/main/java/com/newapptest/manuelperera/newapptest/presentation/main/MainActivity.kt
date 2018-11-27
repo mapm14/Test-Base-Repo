@@ -6,6 +6,7 @@ import com.newapptest.manuelperera.newapptest.domain.model.base.Failure
 import com.newapptest.manuelperera.newapptest.infrastructure.extensions.observe
 import com.newapptest.manuelperera.newapptest.infrastructure.extensions.observeFailure
 import com.newapptest.manuelperera.newapptest.infrastructure.extensions.viewModel
+import com.newapptest.manuelperera.newapptest.infrastructure.extensions.visible
 import com.newapptest.manuelperera.newapptest.presentation.base.BaseActivity
 import kotlinx.android.synthetic.main.activity_main.*
 import javax.inject.Inject
@@ -20,14 +21,18 @@ class MainActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         vm = viewModel(viewModelFactory) {
-            observe(loginSuccess) { onLoginSuccess() }
-            observeFailure(failure) { onLoginFailure(it) }
+            observe(ldLogin) { onLoginSuccess() }
+            observe(ldLoading) {
+                if (it == false) loginTxtView.visible()
+                onLoading(it ?: false)
+            }
+            observeFailure(ldFailure) { onLoginFailure(it) }
             login()
         }
     }
 
     private fun onLoginSuccess() {
-        loginTxtView.text = "Login Success!!"
+        loginTxtView.text = getString(R.string.login_success)
     }
 
     private fun onLoginFailure(failure: Failure) {

@@ -16,9 +16,12 @@ abstract class BaseViewModel : ViewModel() {
     @Inject
     lateinit var resources: Lazy<Resources>
 
-    private var _failure: MutableLiveData<Failure> = MutableLiveData()
-    val failure: LiveData<Failure>
-        get() = _failure
+    private var _ldFailure: MutableLiveData<Failure> = MutableLiveData()
+    val ldFailure: LiveData<Failure>
+        get() = _ldFailure
+    private var _ldLoading: MutableLiveData<Boolean> = MutableLiveData()
+    val ldLoading: LiveData<Boolean>
+        get() = _ldLoading
 
     private val compositeDisposable = CompositeDisposable()
 
@@ -33,9 +36,13 @@ abstract class BaseViewModel : ViewModel() {
 
     protected fun handleFailure(throwable: Throwable) {
         val failure = throwable as? Failure ?: Failure.Error(
-            throwable.message ?: resources.get().getString(R.string.unknown_error)
+                throwable.message ?: resources.get().getString(R.string.unknown_error)
         )
-        _failure.value = failure
+        _ldFailure.value = failure
+    }
+
+    protected fun loading(visible: Boolean) {
+        _ldLoading.value = visible
     }
 
 }

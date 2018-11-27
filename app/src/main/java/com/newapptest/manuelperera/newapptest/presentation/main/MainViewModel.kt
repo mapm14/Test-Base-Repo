@@ -7,18 +7,18 @@ import com.newapptest.manuelperera.newapptest.presentation.base.BaseViewModel
 import javax.inject.Inject
 
 class MainViewModel @Inject constructor(
-    private val loginUseCase: LoginUseCase
+        private val loginUseCase: LoginUseCase
 ) : BaseViewModel() {
 
-    private var _loginSuccess = MutableLiveData<Unit>()
-    val loginSuccess: LiveData<Unit>
-        get() = _loginSuccess
+    private var _ldLogin = MutableLiveData<Unit>()
+    val ldLogin: LiveData<Unit>
+        get() = _ldLogin
 
     fun login() {
-        addSubscription(
-            loginUseCase(LoginUseCase.Params())
-                .subscribe({ _loginSuccess.value = Unit }, ::handleFailure)
-        )
+        addSubscription(loginUseCase(LoginUseCase.Params())
+                .doOnSubscribe { loading(true) }
+                .doAfterTerminate { loading(false) }
+                .subscribe({ _ldLogin.value = Unit }, ::handleFailure))
     }
 
 }
