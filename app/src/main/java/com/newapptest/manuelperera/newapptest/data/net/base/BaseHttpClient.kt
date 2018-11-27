@@ -2,7 +2,7 @@ package com.newapptest.manuelperera.newapptest.data.net.base
 
 import com.newapptest.manuelperera.newapptest.BuildConfig.*
 import com.newapptest.manuelperera.newapptest.data.datasources.local.login.LoginLocalDataSource
-import com.newapptest.manuelperera.newapptest.data.net.base.Constants.LOGIN_END_POINT
+import com.newapptest.manuelperera.newapptest.data.net.base.EndPoints.LOGIN_END_POINT
 import com.newapptest.manuelperera.newapptest.domain.model.base.ApiCodes.UNAUTHOURIZED_REQUEST_CODE
 import com.newapptest.manuelperera.newapptest.infrastructure.di.component.DaggerAppComponent
 import okhttp3.OkHttpClient

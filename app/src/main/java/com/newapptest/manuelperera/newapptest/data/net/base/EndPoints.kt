@@ -1,5 +1,5 @@
 package com.newapptest.manuelperera.newapptest.data.net.base
 
-object Constants {
+object EndPoints {
     const val LOGIN_END_POINT = "oauth/token"
 }

@@ -1,7 +1,7 @@
 package com.newapptest.manuelperera.newapptest.data.net.retrofitapi.login
 
 import com.newapptest.manuelperera.newapptest.data.model.login.LoginResponse
-import com.newapptest.manuelperera.newapptest.data.net.base.Constants.LOGIN_END_POINT
+import com.newapptest.manuelperera.newapptest.data.net.base.EndPoints.LOGIN_END_POINT
 import io.reactivex.Single
 import retrofit2.adapter.rxjava2.Result
 import retrofit2.http.Field
