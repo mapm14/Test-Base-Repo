@@ -1,4 +1,4 @@
-package com.newapptest.manuelperera.newapptest.presentation.main
+package com.newapptest.manuelperera.newapptest.presentation.home
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -6,7 +6,7 @@ import com.newapptest.manuelperera.newapptest.domain.usecase.login.LoginUseCase
 import com.newapptest.manuelperera.newapptest.presentation.base.BaseViewModel
 import javax.inject.Inject
 
-class MainViewModel @Inject constructor(
+class HomeViewModel @Inject constructor(
         private val loginUseCase: LoginUseCase
 ) : BaseViewModel() {
 

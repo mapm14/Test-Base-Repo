@@ -5,4 +5,10 @@
     <string name="timeout_message">Ups! Slow connection, try again</string>
 
     <string name="login_success">Login Success!</string>
+    <string name="home">Home</string>
+    <string name="user">User</string>
+    <string name="orders">Orders</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

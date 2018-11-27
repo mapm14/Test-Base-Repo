@@ -4,7 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.newapptest.manuelperera.newapptest.infrastructure.viewmodel.ViewModelFactory
 import com.newapptest.manuelperera.newapptest.infrastructure.viewmodel.ViewModelKey
-import com.newapptest.manuelperera.newapptest.presentation.main.MainViewModel
+import com.newapptest.manuelperera.newapptest.presentation.home.HomeViewModel
 import dagger.Binds
 import dagger.Module
 import dagger.multibindings.IntoMap
@@ -17,7 +17,7 @@ abstract class ViewModelModule {
 
     @Binds
     @IntoMap
-    @ViewModelKey(MainViewModel::class)
-    abstract fun bindsMainViewModel(mainViewModel: MainViewModel): ViewModel
+    @ViewModelKey(HomeViewModel::class)
+    abstract fun bindsHomeViewModel(homeViewModel: HomeViewModel): ViewModel
 
 }
