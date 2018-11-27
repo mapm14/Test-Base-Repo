@@ -19,6 +19,26 @@
         android:id="@+id/destination_orders"
         android:name="com.newapptest.manuelperera.newapptest.presentation.orders.OrdersFragment"
         android:label="OrdersFragment"
-        tools:layout="@layout/fragment_orders" />
+        tools:layout="@layout/fragment_orders" >
+        <action
+            android:id="@+id/action_next"
+            app:destination="@id/destination_order_detail" >
+            <argument
+                android:name="price"
+                android:defaultValue="0" />
+        </action>
+    </fragment>
+    <fragment
+        android:id="@+id/destination_order_detail"
+        android:name="com.newapptest.manuelperera.newapptest.presentation.orderdetail.OrderDetailFragment"
+        android:label="fragment_order_detail"
+        tools:layout="@layout/fragment_order_detail" >
+        <argument
+            android:name="price"
+            android:defaultValue="0" />
+        <action
+            android:id="@+id/action_next"
+            app:destination="@id/destination_home" />
+    </fragment>
 
 </navigation>

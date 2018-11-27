@@ -1,9 +1,7 @@
 package com.newapptest.manuelperera.newapptest.presentation.main
 
 import android.os.Bundle
-import androidx.navigation.NavController
 import androidx.navigation.Navigation
-import androidx.navigation.findNavController
 import androidx.navigation.ui.NavigationUI
 import com.newapptest.manuelperera.newapptest.R
 import com.newapptest.manuelperera.newapptest.presentation.base.BaseActivity
@@ -16,15 +14,12 @@ class MainActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setSupportActionBar(toolbar)
-        val navController = Navigation.findNavController(this, R.id.nav_host_fragment)
-        setUpBottomNavMenu(navController)
+        setupBottomNavMenu()
     }
 
-    private fun setUpBottomNavMenu(navController: NavController) {
+    private fun setupBottomNavMenu() {
+        val navController = Navigation.findNavController(this, R.id.navHostFragment)
         NavigationUI.setupWithNavController(bottomNavView, navController)
     }
-
-    override fun onSupportNavigateUp(): Boolean =
-            findNavController(R.id.nav_host_fragment).navigateUp()
 
 }
