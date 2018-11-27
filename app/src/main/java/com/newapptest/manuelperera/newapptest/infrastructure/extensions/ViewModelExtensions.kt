@@ -14,7 +14,7 @@ inline fun <reified T : ViewModel> FragmentActivity.viewModel(
 }
 
 fun <T : Any, L : LiveData<T>> LifecycleOwner.observe(liveData: L, body: (T?) -> Unit) =
-    liveData.observe(this, androidx.lifecycle.Observer(body))
+    liveData.observe(this, Observer(body))
 
-fun <L : LiveData<Failure>> LifecycleOwner.failure(liveData: L, body: (Failure) -> Unit) =
-    liveData.observe(this, androidx.lifecycle.Observer(body))
+fun <L : LiveData<Failure>> LifecycleOwner.observeFailure(liveData: L, body: (Failure) -> Unit) =
+    liveData.observe(this, Observer(body))

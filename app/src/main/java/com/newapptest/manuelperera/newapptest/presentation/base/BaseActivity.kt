@@ -3,7 +3,6 @@ package com.newapptest.manuelperera.newapptest.presentation.base
 import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
-import android.widget.Toast
 import androidx.annotation.LayoutRes
 import androidx.lifecycle.ViewModelProvider
 import com.newapptest.manuelperera.newapptest.R
@@ -30,11 +29,6 @@ abstract class BaseActivity : DaggerAppCompatActivity() {
             return true
         }
         return super.onOptionsItemSelected(item)
-    }
-
-    protected fun showToast(message: String, resId: Int) {
-        if (resId == -1) Toast.makeText(this, message, Toast.LENGTH_LONG).show()
-        else Toast.makeText(this, getString(resId), Toast.LENGTH_LONG).show()
     }
 
     protected fun showSnackbarWithRes(title: Int, action: Int, length: Int, actionResult: () -> Unit) {

@@ -24,7 +24,8 @@ open class BaseRemoteDataSource {
     @Inject
     protected lateinit var resources: Lazy<Resources>
 
-    private val timeoutTime = 30L
+    private val timeoutTime = 25L
+    private val retryTimes = 3
 
     fun <RO : ResponseObject<DO>, DO : Any> modifySingle(single: Single<Result<RO>>): Single<DO> =
         single.flatMap { data ->
@@ -42,7 +43,7 @@ open class BaseRemoteDataSource {
                         response.isSuccessful && body == null -> observer.onSuccess(getDomainObjectNoResponse(code))
                         code == UNAUTHOURIZED_REQUEST_CODE -> observer.onError(Failure.Unauthorized())
                         code == NO_MORE_DATA_CODE -> observer.onError(Failure.NoMoreData())
-                        code in 400..512 -> observer.onError(getFailureErrorWithErrorResponse(errorBody))
+                        response.isSuccessful.not() -> observer.onError(getFailureErrorWithErrorResponse(errorBody))
                         else -> observer.onError(getFailureUnknownError())
                     }
 
@@ -51,7 +52,9 @@ open class BaseRemoteDataSource {
             }
         }.timeout(timeoutTime, SECONDS, Single.create<DO> { subscriber ->
             subscriber.onError(getFailureTimeout())
-        })
+        }).retry { count, throwable ->
+            count <= retryTimes && throwable is Failure.Timeout
+        }
 
     fun <RO : ResponseObject<DO>, DO : Any> modifySingleList(single: Single<Result<List<RO>>>): Single<List<DO>> =
         single.flatMap { data ->
@@ -69,7 +72,7 @@ open class BaseRemoteDataSource {
                         response.isSuccessful && body == null -> observer.onSuccess(getDomainObjectNoResponse(code))
                         code == UNAUTHOURIZED_REQUEST_CODE -> observer.onError(Failure.Unauthorized())
                         code == NO_MORE_DATA_CODE -> observer.onError(Failure.NoMoreData())
-                        code in 400..512 -> observer.onError(getFailureErrorWithErrorResponse(errorBody))
+                        response.isSuccessful.not() -> observer.onError(getFailureErrorWithErrorResponse(errorBody))
                         else -> observer.onError(getFailureUnknownError())
                     }
 
@@ -78,7 +81,9 @@ open class BaseRemoteDataSource {
             }
         }.timeout(timeoutTime, SECONDS, Single.create<List<DO>> { subscriber ->
             subscriber.onError(getFailureTimeout())
-        })
+        }).retry { count, throwable ->
+            count <= retryTimes && throwable is Failure.Timeout
+        }
 
     @Suppress("UNCHECKED_CAST")
     private fun <RO : ResponseObject<DO>, DO : Any> getDomainObject(body: RO): DO =

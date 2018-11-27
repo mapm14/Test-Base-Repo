@@ -2,7 +2,9 @@ package com.newapptest.manuelperera.newapptest.presentation.main
 
 import android.os.Bundle
 import com.newapptest.manuelperera.newapptest.R
+import com.newapptest.manuelperera.newapptest.domain.model.base.Failure
 import com.newapptest.manuelperera.newapptest.infrastructure.extensions.observe
+import com.newapptest.manuelperera.newapptest.infrastructure.extensions.observeFailure
 import com.newapptest.manuelperera.newapptest.infrastructure.extensions.viewModel
 import com.newapptest.manuelperera.newapptest.presentation.base.BaseActivity
 import kotlinx.android.synthetic.main.activity_main.*
@@ -19,7 +21,7 @@ class MainActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         vm = viewModel(viewModelFactory) {
             observe(loginSuccess) { onLoginSuccess() }
-            observe(failure) { onLoginFailure() }
+            observeFailure(failure) { onLoginFailure(it) }
             login()
         }
     }
@@ -28,8 +30,12 @@ class MainActivity : BaseActivity() {
         loginTxtView.text = "Login Success!!"
     }
 
-    private fun onLoginFailure() {
-        loginTxtView.text = "Login Failure!!"
+    private fun onLoginFailure(failure: Failure) {
+        loginTxtView.text = when (failure) {
+            is Failure.Error -> failure.msg
+            is Failure.Timeout -> failure.msg
+            else -> getString(R.string.unknown_error)
+        }
     }
 
 }

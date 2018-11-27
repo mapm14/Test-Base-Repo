@@ -2,7 +2,6 @@ package com.newapptest.manuelperera.newapptest.presentation.main
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.newapptest.manuelperera.newapptest.domain.model.base.Failure
 import com.newapptest.manuelperera.newapptest.domain.usecase.login.LoginUseCase
 import com.newapptest.manuelperera.newapptest.presentation.base.BaseViewModel
 import javax.inject.Inject
@@ -17,11 +16,8 @@ class MainViewModel @Inject constructor(
 
     fun login() {
         addSubscription(
-            loginUseCase(LoginUseCase.Params()).subscribe({
-                _loginSuccess.value = Unit
-            }, {
-                handleFailure(it as Failure)
-            })
+            loginUseCase(LoginUseCase.Params())
+                .subscribe({ _loginSuccess.value = Unit }, ::handleFailure)
         )
     }
 
