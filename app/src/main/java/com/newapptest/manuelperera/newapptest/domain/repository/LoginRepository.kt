@@ -1,9 +1,9 @@
 package com.newapptest.manuelperera.newapptest.domain.repository
 
-import io.reactivex.Single
+import com.newapptest.manuelperera.newapptest.data.model.base.Results
 
 interface LoginRepository {
 
-    fun login(clientId: String, clientSecret: String): Single<String>
+    suspend fun login(clientId: String, clientSecret: String): Results
 
 }

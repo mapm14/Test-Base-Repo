@@ -1,9 +1,9 @@
 package com.newapptest.manuelperera.newapptest.domain.usecase.base
 
-import io.reactivex.Single
+import com.newapptest.manuelperera.newapptest.data.model.base.Results
 
 interface UseCase<Type, in Params> {
 
-    operator fun invoke(params: Params): Single<Type>
+    suspend operator fun invoke(params: Params): Results
 
 }

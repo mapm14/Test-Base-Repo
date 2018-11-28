@@ -2,9 +2,13 @@ package com.newapptest.manuelperera.newapptest.data.net.base
 
 import com.newapptest.manuelperera.newapptest.BuildConfig.*
 import com.newapptest.manuelperera.newapptest.data.datasources.local.login.LoginLocalDataSource
+import com.newapptest.manuelperera.newapptest.data.model.base.Results
 import com.newapptest.manuelperera.newapptest.data.net.base.EndPoints.LOGIN_END_POINT
 import com.newapptest.manuelperera.newapptest.domain.model.base.ApiCodes.UNAUTHOURIZED_REQUEST_CODE
 import com.newapptest.manuelperera.newapptest.infrastructure.di.component.DaggerAppComponent
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import okhttp3.logging.HttpLoggingInterceptor.Level.BODY
@@ -38,9 +42,14 @@ class BaseHttpClient @Inject constructor(
                 val loginRepository = DaggerAppComponent.builder().build().provideLoginRepository()
 
                 try {
-                    val token = loginRepository.login(CLIENT_ID, CLIENT_SECRET).blockingGet()
-                    loginLocalDataSource.saveToken(token)
-                    requestBuilder.addHeader("Authorization", "Bearer $token")
+                    CoroutineScope(Job()).launch {
+                        val token = loginRepository.login(CLIENT_ID, CLIENT_SECRET)
+                        when (token) {
+                            is Results.Success<*> -> loginLocalDataSource.saveToken(token.success as String)
+                            else -> throw Exception()
+                        }
+                        requestBuilder.addHeader("Authorization", "Bearer $token")
+                    }
                 } catch (e: Exception) {
                     loginLocalDataSource.saveToken("")
                     return@authenticator null

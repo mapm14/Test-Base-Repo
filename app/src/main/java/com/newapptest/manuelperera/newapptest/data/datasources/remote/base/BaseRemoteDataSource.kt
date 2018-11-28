@@ -4,7 +4,10 @@ import android.content.res.Resources
 import com.google.gson.Gson
 import com.newapptest.manuelperera.newapptest.R
 import com.newapptest.manuelperera.newapptest.data.model.base.ErrorResponse
+import com.newapptest.manuelperera.newapptest.data.model.base.ResResp
+import com.newapptest.manuelperera.newapptest.data.model.base.Results
 import com.newapptest.manuelperera.newapptest.data.model.base.SuccessResponse
+import com.newapptest.manuelperera.newapptest.data.net.base.ApiErrorHandler
 import com.newapptest.manuelperera.newapptest.domain.model.base.ApiCodes.NO_MORE_DATA_CODE
 import com.newapptest.manuelperera.newapptest.domain.model.base.ApiCodes.UNAUTHOURIZED_REQUEST_CODE
 import com.newapptest.manuelperera.newapptest.domain.model.base.ApiCodes.UNKNOWN_ERROR_CODE
@@ -12,7 +15,9 @@ import com.newapptest.manuelperera.newapptest.domain.model.base.Failure
 import com.newapptest.manuelperera.newapptest.domain.model.base.ResponseObject
 import dagger.Lazy
 import io.reactivex.Single
+import kotlinx.coroutines.Deferred
 import okhttp3.ResponseBody
+import retrofit2.Response
 import retrofit2.adapter.rxjava2.Result
 import timber.log.Timber
 import java.net.UnknownHostException
@@ -26,6 +31,16 @@ open class BaseRemoteDataSource {
 
     private val timeoutTime = 25L
     private val retryTimes = 3
+
+    suspend fun <T : ResponseObject<E>, E : Any> modifyDef(def: Deferred<Response<T>>): ResResp {
+        return try {
+            val resp = def.await()
+            getResult(resp) { getError(resp) }
+
+        } catch (e: Exception) {
+            ResResp(Results.Error(ApiErrorHandler.getExceptionType(null, e, resources)))
+        }
+    }
 
     fun <RO : ResponseObject<DO>, DO : Any> modifySingle(single: Single<Result<RO>>): Single<DO> =
         single.flatMap { data ->
@@ -119,4 +134,22 @@ open class BaseRemoteDataSource {
         responseBody?.let { Gson().fromJson(it.string(), ErrorResponse::class.java) }
             ?: ErrorResponse(UNKNOWN_ERROR_CODE, resources.get().getString(R.string.unknown_error))
 
+    private fun <T> getError(resp: Response<T>): Results.Error =
+        Results.Error(ApiErrorHandler.getExceptionType(resp, resources))
+
+    private inline fun <T : ResponseObject<E>, E : Any> getResult(
+        response: Response<T>,
+        onError: () -> Results.Error
+    ): ResResp {
+        if (response.isSuccessful) {
+            val body = response.body()
+            val res = if (body != null) {
+                Results.Success(getDomainObject(body))
+            } else {
+                Results.Error(ApiErrorHandler.getExceptionType(response, resources))
+            }
+            return ResResp(res)
+        }
+        return ResResp(onError.invoke())
+    }
 }

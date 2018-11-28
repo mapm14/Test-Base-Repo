@@ -9,9 +9,10 @@ import com.newapptest.manuelperera.newapptest.domain.model.base.Failure
 import dagger.Lazy
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
+import kotlinx.coroutines.CoroutineScope
 import javax.inject.Inject
 
-abstract class BaseViewModel : ViewModel() {
+abstract class BaseViewModel : ViewModel(), CoroutineScope {
 
     @Inject
     lateinit var resources: Lazy<Resources>
@@ -34,7 +35,7 @@ abstract class BaseViewModel : ViewModel() {
         super.onCleared()
     }
 
-    protected fun handleFailure(throwable: Throwable) {
+    protected fun handleFailure(throwable: Failure) {
         val failure = throwable as? Failure ?: Failure.Error(
                 throwable.message ?: resources.get().getString(R.string.unknown_error)
         )

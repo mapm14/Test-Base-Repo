@@ -2,8 +2,8 @@ package com.newapptest.manuelperera.newapptest.data.repository.implementation.lo
 
 import com.newapptest.manuelperera.newapptest.data.datasources.local.login.LoginLocalDataSource
 import com.newapptest.manuelperera.newapptest.data.datasources.remote.login.LoginRemoteDataSource
+import com.newapptest.manuelperera.newapptest.data.model.base.Results
 import com.newapptest.manuelperera.newapptest.domain.repository.LoginRepository
-import io.reactivex.Single
 import javax.inject.Inject
 
 class LoginRepositoryImpl @Inject constructor(
@@ -11,8 +11,11 @@ class LoginRepositoryImpl @Inject constructor(
     private val loginLocalDataSource: LoginLocalDataSource
 ) : LoginRepository {
 
-    override fun login(clientId: String, clientSecret: String): Single<String> =
-        loginRemoteDataSource.login(clientId, clientSecret)
-            .flatMap { loginLocalDataSource.saveToken(it) }
-
+    override suspend fun login(clientId: String, clientSecret: String): Results {
+        return loginRemoteDataSource.loginCr(clientId, clientSecret).also {
+            if (it is Results.Success<*>) {
+                loginLocalDataSource.saveToken(it.success as String)
+            }
+        }
+    }
 }

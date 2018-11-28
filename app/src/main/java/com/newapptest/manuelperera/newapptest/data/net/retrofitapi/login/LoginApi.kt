@@ -3,6 +3,9 @@ package com.newapptest.manuelperera.newapptest.data.net.retrofitapi.login
 import com.newapptest.manuelperera.newapptest.data.model.login.LoginResponse
 import com.newapptest.manuelperera.newapptest.data.net.base.EndPoints.LOGIN_END_POINT
 import io.reactivex.Single
+import kotlinx.coroutines.Deferred
+import retrofit2.Call
+import retrofit2.Response
 import retrofit2.adapter.rxjava2.Result
 import retrofit2.http.Field
 import retrofit2.http.FormUrlEncoded
@@ -18,4 +21,11 @@ interface LoginApi {
         @Field("grant_type") grantType: String = "client_credentials"
     ): Single<Result<LoginResponse>>
 
+    @FormUrlEncoded
+    @POST(LOGIN_END_POINT)
+    fun loginCr(
+        @Field("client_id") clientId: String,
+        @Field("client_secret") clientSecret: String,
+        @Field("grant_type") grantType: String = "client_credentials"
+    ): Deferred<Response<LoginResponse>>
 }
