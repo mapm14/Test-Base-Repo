@@ -20,6 +20,10 @@ class MainActivity : BaseActivity() {
     private fun setupBottomNavMenu() {
         val navController = Navigation.findNavController(this, R.id.navHostFragment)
         NavigationUI.setupWithNavController(bottomNavView, navController)
+
+        fab.setOnClickListener {
+            bottomNavView.selectedItemId = R.id.destination_home
+        }
     }
 
 }

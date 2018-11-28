@@ -6,7 +6,6 @@
         android:title="@string/orders" />
     <item
         android:id="@+id/destination_home"
-        android:icon="@drawable/ic_home"
         android:title="@string/home" />
     <item
         android:id="@+id/destination_user"

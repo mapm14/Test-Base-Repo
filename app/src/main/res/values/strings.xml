@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">New App Test</string>
+    <string name="app_name">SafeBoda</string>
     <string name="no_internet">No Internet connection</string>
     <string name="unknown_error">Unknown error</string>
     <string name="timeout_message">Ups! Slow connection, try again</string>
