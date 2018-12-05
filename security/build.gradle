@@ -1,0 +1,49 @@
+/*
+ * Copyright (C) 2018 SEAT, S.A - All Rights Reserved
+ *
+ * This file is part of MySeat App.
+ *
+ * Unauthorized reproduction, copying, or modification, of this file, via
+ * any medium is strictly prohibited.
+ *
+ * This code is Proprietary and Confidential.
+ *
+ * All the 3rd parties libraries included in the project are regulated by
+ * their own licenses.
+ */
+
+apply plugin: 'com.android.library'
+
+android {
+    compileSdkVersion 28
+    defaultConfig {
+        defaultPublishConfig 'release'
+        publishNonDefault true
+        minSdkVersion 19
+        targetSdkVersion 28
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
+    }
+
+    buildTypes {
+        debug {
+
+        }
+        pre {
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.0'
+    testImplementation 'junit:junit:4.12'
+}

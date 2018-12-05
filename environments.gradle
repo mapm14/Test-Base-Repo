@@ -1,0 +1,27 @@
+/**
+ * Environment class
+ */
+class Environments {
+    String baseURL = ""
+    String clientID = ""
+    String clientSecret = ""
+    String grantType = ""
+}
+
+class EnvironmentItems {
+    Environments dev = new Environments()
+    Environments pro = new Environments()
+}
+
+EnvironmentItems environments = new EnvironmentItems()
+
+environments.dev.baseURL = "vH9KTgG1e8HxUXtHEmVhtNev5JN4ftg2yXmRTTbNVf0="
+environments.dev.clientID = "HSupbQtMdS1BYZFe6is2+kRGFufI2s67HWjEAZ4BZqg="
+environments.dev.clientSecret = "YOHMtJVzXK605USwe9k8+A=="
+
+environments.pro.baseURL = "vH9KTgG1e8HxUXtHEmVhtNev5JN4ftg2yXmRTTbNVf0="
+environments.pro.clientID = "HSupbQtMdS1BYZFe6is2+kRGFufI2s67HWjEAZ4BZqg="
+environments.pro.clientSecret = "YOHMtJVzXK605USwe9k8+A=="
+
+
+ext.environments = environments

@@ -1,5 +1,6 @@
 package com.newapptest.manuelperera.newapptest.data.net.base
 
+import com.example.security.CryptoUtils
 import com.google.gson.Gson
 import com.newapptest.manuelperera.newapptest.BuildConfig
 import io.reactivex.schedulers.Schedulers
@@ -14,7 +15,7 @@ class BaseRetrofit @Inject constructor(
 ) {
 
     val retrofit: Retrofit = Retrofit.Builder()
-        .baseUrl(BuildConfig.BASE_URL)
+        .baseUrl(CryptoUtils.getInstance().decrypt(BuildConfig.BASE_URL))
         .addConverterFactory(GsonConverterFactory.create(gson))
         .addCallAdapterFactory(RxJava2CallAdapterFactory.createWithScheduler(Schedulers.io()))
         .client(baseHttpClient.okHttpClient)

@@ -1,5 +1,6 @@
 package com.newapptest.manuelperera.newapptest.data.net.base
 
+import com.example.security.CryptoUtils
 import com.newapptest.manuelperera.newapptest.BuildConfig.*
 import com.newapptest.manuelperera.newapptest.data.datasources.local.login.LoginLocalDataSource
 import com.newapptest.manuelperera.newapptest.data.net.base.EndPoints.LOGIN_END_POINT
@@ -38,7 +39,7 @@ class BaseHttpClient @Inject constructor(
                 val loginRepository = DaggerAppComponent.builder().build().provideLoginRepository()
 
                 try {
-                    val token = loginRepository.login(CLIENT_ID, CLIENT_SECRET).blockingGet()
+                    val token = loginRepository.login(CryptoUtils.getInstance().decrypt(CLIENT_ID), CryptoUtils.getInstance().decrypt(CLIENT_SECRET)).blockingGet()
                     loginLocalDataSource.saveToken(token)
                     requestBuilder.addHeader("Authorization", "Bearer $token")
                 } catch (e: Exception) {

@@ -1,3 +1,5 @@
+apply from: '../environments.gradle'
+
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
@@ -15,13 +17,19 @@ android {
         versionName "1.0"
         vectorDrawables.useSupportLibrary = true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-
-        buildConfigField "String", "BASE_URL", '"https://api.lufthansa.com/v1/"'
-        buildConfigField 'String', 'CLIENT_ID', '"b93wnu42cnmzmcbqeuycxdej"'
-        buildConfigField 'String', 'CLIENT_SECRET', '"5nGrC4H8Qf"'
     }
     buildTypes {
+        debug {
+            buildConfigField "String", "BASE_URL", "\"" + environments.dev.baseURL + "\""
+            buildConfigField 'String', 'CLIENT_ID', "\"" + environments.dev.clientID + "\""
+            buildConfigField 'String', 'CLIENT_SECRET', "\"" + environments.dev.clientSecret + "\""
+        }
+
         release {
+            buildConfigField "String", "BASE_URL", "\"" + environments.pro.baseURL + "\""
+            buildConfigField 'String', 'CLIENT_ID', "\"" + environments.pro.clientID + "\""
+            buildConfigField 'String', 'CLIENT_SECRET', "\"" + environments.pro.clientSecret + "\""
+
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
@@ -29,7 +37,10 @@ android {
 }
 
 dependencies {
+    implementation project(':security')
+
     implementation fileTree(dir: 'libs', include: ['*.jar'])
+
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation 'androidx.appcompat:appcompat:1.0.2'
     implementation 'androidx.constraintlayout:constraintlayout:2.0.0-alpha2'
